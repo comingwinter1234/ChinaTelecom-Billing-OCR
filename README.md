@@ -10,7 +10,7 @@ pip install -r requirements.txt
 ```
 ### Mysql安装
 
-* 安装Mysql5.77.4.0， 下载地址：https://dev.mysql.com/downloads/installer/
+* 安装Mysql5.7.44， 下载地址：https://dev.mysql.com/downloads/installer/
 
 ## 项目启动
 
