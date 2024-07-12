@@ -35,7 +35,7 @@ async def process_file(file: UploadFile, user_id: str, conn: Session, temp_dir: 
     query = conn.query(Service.service_name).where(get_where_conditions([Service.service_name], file_info[1]))
     if len(query.all()) == 0:
         return {'msg': '扫描得到的服务类型不存在，请重试'}
-    query = conn.query(Service.service_id, Service.dept_id).where(
+    query = conn.query(Service.service_id).where(
         get_where_conditions([Service.service_name], file_info[1]))
     service_info = query.first()
     query = conn.query(ServiceRecord.service_record_id)
@@ -43,9 +43,7 @@ async def process_file(file: UploadFile, user_id: str, conn: Session, temp_dir: 
     new_record = {
         'service_record_id': max_id + 1,
         'service_id': service_info[0],
-        'service_name': file_info[1],
         'service_time': file_info[3],
-        'dept_id': service_info[1],
         'buyer_company': file_info[5],
         'seller_company': file_info[4],
         'worker_id': user_id,
