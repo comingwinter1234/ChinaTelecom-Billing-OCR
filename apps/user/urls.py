@@ -20,11 +20,13 @@ async def upload_pdfs_ofds_photos(user_id: str, files: List[UploadFile] = File(.
 @user_urls.post("/search_service/")
 def search_service(user_id: str, search_info: SearchServiceInfo):
     with Session(bind=engine) as conn:
-        query = conn.query(Worker.worker_id, Worker.worker_name, Dept.dept_id, Dept.dept_name,
-                           ServiceRecord.service_name, ServiceRecord.service_time, ServiceRecord.buyer_company,
+        query = conn.query(Worker.worker_name, Clas.class_name, Dept.dept_name,
+                           Service.service_name, ServiceRecord.service_time, ServiceRecord.buyer_company,
                            ServiceRecord.seller_company, ServiceRecord.cost).join(
             Worker, Worker.worker_id == ServiceRecord.worker_id).join(
-            Dept, ServiceRecord.dept_id == Dept.dept_id)
+            Clas, Worker.class_id == Clas.class_id).join(
+            Dept, Dept.dept_id == Clas.dept_id
+        )
         if user_id is not None:
             query = query.filter(ServiceRecord.worker_id == user_id)
         if search_info.service_name is not None:
